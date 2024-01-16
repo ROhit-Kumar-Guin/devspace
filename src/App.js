@@ -3,6 +3,7 @@ import { getUsers, addUser, editUser, deleteUser, getUserPosts, getUserAlbums } 
 import UserList from './components/UserList';
 import AddUserModal from './components/AddUserModal';
 import { Button, Modal, Typography} from '@mui/material';
+import NavBar from './components/NavBar';
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -65,56 +66,59 @@ const App = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <UserList users={users} onEdit={handleEditUser} onDelete={handleDeleteUser} onViewProfile={handleViewProfile} />
-      <Button onClick={() => setIsAddUserModalOpen(true)}>Add User</Button>
-      <AddUserModal isOpen={isAddUserModalOpen} onClose={handleModalClose} onAddUser={handleAddUser} />
-      <Modal open={isEditDeleteModalOpen} onClose={handleModalClose}>
-        <div>
-          {selectedUser ? (
-            <>
-              <Typography variant="h5">Edit User</Typography>
-              <input
-                type="text"
-                name="name"
-                value={selectedUser.name}
-                onChange={(e) => setSelectedUser((prevUser) => ({ ...prevUser, name: e.target.value }))}
-                placeholder="Name"
-              />
-              <input
-                type="text"
-                name="email"
-                value={selectedUser.email}
-                onChange={(e) => setSelectedUser((prevUser) => ({ ...prevUser, email: e.target.value }))}
-                placeholder="Email"
-              />
-              <Button onClick={() => handleEditUserData(selectedUser)}>Save Changes</Button>
-              <Button onClick={() => handleDeleteUser(selectedUser.id)}>Delete User</Button>
-            </>
-          ) : (
-            <>
-              <Typography variant="h5">User Profile</Typography>
-              <div>
-                <Typography variant="h6">Posts:</Typography>
-                <ul>
-                  {userPosts.map((post) => (
-                    <li key={post.id}>{post.title}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <Typography variant="h6">Albums:</Typography>
-                <ul>
-                  {userAlbums.map((album) => (
-                    <li key={album.id}>{album.title}</li>
-                  ))}
-                </ul>
-              </div>
-            </>
-          )}
-        </div>
-      </Modal>
-    </div>
+    <>
+      <NavBar/>
+      <div style={{ padding: 20 }}>
+        <UserList users={users} onEdit={handleEditUser} onDelete={handleDeleteUser} onViewProfile={handleViewProfile} />
+        <Button onClick={() => setIsAddUserModalOpen(true)}>Add User</Button>
+        <AddUserModal isOpen={isAddUserModalOpen} onClose={handleModalClose} onAddUser={handleAddUser} />
+        <Modal open={isEditDeleteModalOpen} onClose={handleModalClose}>
+          <div>
+            {selectedUser ? (
+              <>
+                <Typography variant="h5">Edit User</Typography>
+                <input
+                  type="text"
+                  name="name"
+                  value={selectedUser.name}
+                  onChange={(e) => setSelectedUser((prevUser) => ({ ...prevUser, name: e.target.value }))}
+                  placeholder="Name"
+                />
+                <input
+                  type="text"
+                  name="email"
+                  value={selectedUser.email}
+                  onChange={(e) => setSelectedUser((prevUser) => ({ ...prevUser, email: e.target.value }))}
+                  placeholder="Email"
+                />
+                <Button onClick={() => handleEditUserData(selectedUser)}>Save Changes</Button>
+                <Button onClick={() => handleDeleteUser(selectedUser.id)}>Delete User</Button>
+              </>
+            ) : (
+              <>
+                <Typography variant="h5">User Profile</Typography>
+                <div>
+                  <Typography variant="h6">Posts:</Typography>
+                  <ul>
+                    {userPosts.map((post) => (
+                      <li key={post.id}>{post.title}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <Typography variant="h6">Albums:</Typography>
+                  <ul>
+                    {userAlbums.map((album) => (
+                      <li key={album.id}>{album.title}</li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
+        </Modal>
+      </div>
+    </>
   );
 };
 
